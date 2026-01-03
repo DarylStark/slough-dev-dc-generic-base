@@ -8,7 +8,7 @@ RUN sed -i 's:^path-exclude /usr/share/man:#path-exclude /usr/share/man:' \
         /etc/dpkg/dpkg.cfg.d/docker
 
 # Install needed tools
-# hadolint ignore=DL3008
+# hadolint ignore=DL3008,DL3009
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --reinstall \
     manpages \
@@ -114,10 +114,12 @@ ENV PATH="/home/developer/.local/bin:${PATH}"
 RUN uv tool install pre-commit
 
 # Install Rust and Cargo
+# hadolint ignore=DL4001
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Install onefetch using cargo
 ENV PATH="/home/developer/.cargo/bin:${PATH}"
+# hadolint ignore=SC1091
 RUN . "$HOME/.cargo/env" && cargo install onefetch
 
 # Switch back to root user to clean up
