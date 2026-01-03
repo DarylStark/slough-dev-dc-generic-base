@@ -23,7 +23,9 @@ RUN apt-get update && \
     openssh-client \
     bash-completion \
     iputils-ping \
-    ca-certificates && \
+    ca-certificates \
+    rlwrap \
+    xsel && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists
 
@@ -94,6 +96,10 @@ RUN wget -q https://starship.rs/install.sh -O install.sh && \
 # Download Git completion script
 RUN wget -q https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O /etc/bash_completion.d/git-completion.bash && \
     echo "source /etc/bash_completion.d/git-completion.bash" >> /home/developer/.bashrc
+
+# Copy and install cheat.sh client script
+COPY ./bin/cht.sh /usr/local/bin/cht.sh
+RUN chmod +x /usr/local/bin/cht.sh
 
 # Fix all permissions for the home folder
 RUN chown -R developer:developer /home/developer
