@@ -25,9 +25,8 @@ RUN apt-get update && \
     iputils-ping \
     ca-certificates \
     rlwrap \
-    xsel && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists
+    xsel \
+    build-essential
 
 # Add GitHub CLI repository
 # hadolint ignore=DL3008
@@ -120,6 +119,16 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # Install onefetch using cargo
 ENV PATH="/home/developer/.cargo/bin:${PATH}"
 RUN . "$HOME/.cargo/env" && cargo install onefetch
+
+# Switch back to root user to clean up
+USER root
+
+RUN apt-get purge -y build-essential && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists
+
+# Switch to the non-root user
+USER developer
 
 # Configure Starship
 RUN mkdir -p .config && \
