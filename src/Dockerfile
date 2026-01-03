@@ -8,7 +8,7 @@ RUN sed -i 's:^path-exclude /usr/share/man:#path-exclude /usr/share/man:' \
         /etc/dpkg/dpkg.cfg.d/docker
 
 # Install needed tools
-# hadolint ignore=DL3008
+# hadolint ignore=DL3008,DL3009
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --reinstall \
     manpages \
@@ -23,9 +23,10 @@ RUN apt-get update && \
     openssh-client \
     bash-completion \
     iputils-ping \
-    ca-certificates && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists
+    ca-certificates \
+    rlwrap \
+    xsel \
+    build-essential
 
 # Add GitHub CLI repository
 # hadolint ignore=DL3008
@@ -95,14 +96,41 @@ RUN wget -q https://starship.rs/install.sh -O install.sh && \
 RUN wget -q https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O /etc/bash_completion.d/git-completion.bash && \
     echo "source /etc/bash_completion.d/git-completion.bash" >> /home/developer/.bashrc
 
-# Fix all permissions for the home folder
-RUN chown -R developer:developer /home/developer
+# Copy and install cheat.sh client script
+COPY ./bin/cht.sh /usr/local/bin/cht.sh
+
+# Fix all permissions for the home folder and make cheat.sh executable
+RUN chmod +x /usr/local/bin/cht.sh && \
+    chown -R developer:developer /home/developer
 
 # Switch to the non-root user
 USER developer
 
 # Install `uv`. Used for pre-commit
 RUN wget -qO- https://astral.sh/uv/install.sh | sh
+
+# Install pre-commit using uv
+ENV PATH="/home/developer/.local/bin:${PATH}"
+RUN uv tool install pre-commit
+
+# Install Rust and Cargo
+# hadolint ignore=DL4001
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Install onefetch using cargo
+ENV PATH="/home/developer/.cargo/bin:${PATH}"
+# hadolint ignore=SC1091
+RUN . "$HOME/.cargo/env" && cargo install onefetch
+
+# Switch back to root user to clean up
+USER root
+
+RUN apt-get purge -y build-essential && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists
+
+# Switch to the non-root user
+USER developer
 
 # Configure Starship
 RUN mkdir -p .config && \
