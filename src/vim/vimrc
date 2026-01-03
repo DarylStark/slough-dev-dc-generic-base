@@ -74,12 +74,12 @@ set laststatus=2            " Always show the status line on the bottom
 "---------------------------------------------------------------------------------------------------
 set statusline=
 set statusline+=%{GetMode()}
-set statusline+=%3n\
+set statusline+=%3n\ 
 set statusline+=%r
 set statusline+=%f\ %m
 set statusline+=%=
 set statusline+=%l,%c
-set statusline+=\ (%p%%)\
+set statusline+=\ (%p%%)\ 
 "---------------------------------------------------------------------------------------------------
 " Folding settings
 "---------------------------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ nnoremap <silent> <leader><leader>  :call ToggleHLSearch()<CR>
 nnoremap <silent> <Tab>             :tabnext<CR>
 nnoremap <silent> <S-Tab>           :tabprev<CR>
 
-" Keymappings to run Python files
+" Keymappings to run Python files 
 autocmd FileType python nnoremap <silent> <leader>p :PythonRunFile<CR>
 autocmd FileType python nnoremap <silent> <leader>P :PythonRunFileInteractive<CR>
 

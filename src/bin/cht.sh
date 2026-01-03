@@ -47,11 +47,11 @@ query_chtsh() {
     # URL encode the query by replacing spaces with +
     query="${query// /+}"
     local url="${CHTSH_URL}/${query}"
-
+    
     if [[ -n "$CHTSH_QUERY_OPTIONS" ]]; then
         url="${url}?${CHTSH_QUERY_OPTIONS}"
     fi
-
+    
     if ! curl -sf "$url"; then
         echo "Error: Failed to fetch data from cheat.sh" >&2
         return 1
