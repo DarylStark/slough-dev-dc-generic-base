@@ -44,13 +44,18 @@ EOF
 # Function to query cheat.sh
 query_chtsh() {
     local query="$*"
+    # URL encode the query by replacing spaces with +
+    query="${query// /+}"
     local url="${CHTSH_URL}/${query}"
     
     if [[ -n "$CHTSH_QUERY_OPTIONS" ]]; then
         url="${url}?${CHTSH_QUERY_OPTIONS}"
     fi
     
-    curl -s "$url"
+    if ! curl -sf "$url"; then
+        echo "Error: Failed to fetch data from cheat.sh" >&2
+        return 1
+    fi
 }
 
 # Function to start interactive shell
@@ -58,7 +63,7 @@ interactive_shell() {
     if command -v rlwrap >/dev/null 2>&1; then
         echo "Starting interactive cheat.sh shell..."
         echo "Type 'help' for help, 'exit' or Ctrl-D to exit"
-        rlwrap -H ~/.cht.sh_history -P "cht.sh> " -S "cht.sh> " bash -c '
+        rlwrap -H ~/.cht.sh_history -P "cht.sh> " bash -c '
             while IFS="" read -r -e -p "" query; do
                 [[ "$query" == "exit" ]] && break
                 [[ -z "$query" ]] && continue
