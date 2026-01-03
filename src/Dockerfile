@@ -114,6 +114,13 @@ RUN wget -qO- https://astral.sh/uv/install.sh | sh
 ENV PATH="/home/developer/.local/bin:${PATH}"
 RUN uv tool install pre-commit
 
+# Install Rust and Cargo
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Install onefetch using cargo
+ENV PATH="/home/developer/.cargo/bin:${PATH}"
+RUN /home/developer/.cargo/bin/cargo install onefetch
+
 # Configure Starship
 RUN mkdir -p .config && \
     mkdir -p StarshipPrompt
