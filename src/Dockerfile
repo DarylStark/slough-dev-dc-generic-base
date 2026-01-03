@@ -99,10 +99,10 @@ RUN wget -q https://raw.githubusercontent.com/git/git/master/contrib/completion/
 
 # Copy and install cheat.sh client script
 COPY ./bin/cht.sh /usr/local/bin/cht.sh
-RUN chmod +x /usr/local/bin/cht.sh
 
-# Fix all permissions for the home folder
-RUN chown -R developer:developer /home/developer
+# Fix all permissions for the home folder and make cheat.sh executable
+RUN chmod +x /usr/local/bin/cht.sh && \
+    chown -R developer:developer /home/developer
 
 # Switch to the non-root user
 USER developer
