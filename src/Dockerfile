@@ -111,7 +111,8 @@ USER developer
 RUN wget -qO- https://astral.sh/uv/install.sh | sh
 
 # Install pre-commit using uv
-RUN /home/developer/.local/bin/uv tool install pre-commit
+ENV PATH="/home/developer/.local/bin:${PATH}"
+RUN uv tool install pre-commit
 
 # Configure Starship
 RUN mkdir -p .config && \
