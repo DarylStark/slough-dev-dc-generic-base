@@ -113,7 +113,7 @@ The default working directory for projects is `/workspaces`, which is owned by t
 ### Environment Variables
 
 - `VISUAL=vi` - Default visual editor
-- `EDITOR=vi` - Default text editor  
+- `EDITOR=vi` - Default text editor
 - `PATH` includes:
   - `/home/developer/.local/bin` (Python/UV tools)
   - `/home/developer/.cargo/bin` (Rust tools)
