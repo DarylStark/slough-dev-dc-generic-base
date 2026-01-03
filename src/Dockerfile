@@ -119,7 +119,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Install onefetch using cargo
 ENV PATH="/home/developer/.cargo/bin:${PATH}"
-RUN cargo install onefetch
+RUN . "$HOME/.cargo/env" && cargo install onefetch
 
 # Configure Starship
 RUN mkdir -p .config && \
