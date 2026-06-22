@@ -47,6 +47,18 @@ cd() {
 }
 check_directory_for_new_repository
 #-------------------------------------------------------------------------------
+# Update reminder
+#-------------------------------------------------------------------------------
+if [ -f /var/log/dev-dc-last-update ]; then
+    _last_update=$(stat -c %Y /var/log/dev-dc-last-update)
+    _now=$(date +%s)
+    _days_since=$(( (_now - _last_update) / 86400 ))
+    if [ "$_days_since" -gt 5 ]; then
+        echo "It has been $_days_since days since the last update. Run 'update' to update the container."
+    fi
+    unset _last_update _now _days_since
+fi
+#-------------------------------------------------------------------------------
 # Start Starship for the prompt
 #-------------------------------------------------------------------------------
 eval "$(starship init bash)"
