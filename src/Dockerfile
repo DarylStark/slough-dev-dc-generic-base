@@ -41,9 +41,9 @@ RUN wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | te
 # Install Hadolint
 RUN ARCH=$(dpkg --print-architecture) && \
     if [ "$ARCH" = "amd64" ]; then \
-    wget -qO /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64; \
+    wget -qO /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-Linux-x86_64; \
     elif [ "$ARCH" = "arm64" ]; then \
-    wget -qO /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-arm64; \
+    wget -qO /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-Linux-arm64; \
     else \
     echo "Unsupported architecture: $ARCH"; exit 1; \
     fi && \
@@ -128,6 +128,11 @@ USER root
 RUN apt-get purge -y build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists
+
+# Create the Update environment
+RUN mkdir -p /opt/update-dc/
+COPY ./update/ /opt/update-dc/
+RUN chmod +x /opt/update-dc/*.sh
 
 # Switch to the non-root user
 USER developer
