@@ -20,7 +20,8 @@ alias ls='ls -h --color'
 alias ll='ls -alF'
 alias la='ls -l'
 alias docker='sudo docker'
-alias pre-commit='uvx pre-commit'
+alias pre-commit='uv tool run pre-commit'
+alias update='sudo /opt/update-dc/000-update-dev-dc.sh'
 #-------------------------------------------------------------------------------
 # Run any local .bashrc files
 #-------------------------------------------------------------------------------
