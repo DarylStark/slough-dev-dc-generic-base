@@ -4,15 +4,11 @@ set -euo pipefail
 shopt -s nullglob
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-lib_dir="$(cd -- "$script_dir/lib" && pwd)"
+lib_dir="$(cd -- "$script_dir/../update-dc/lib" && pwd)"
 source "$lib_dir/common.sh"
 
 require_root
-print_header "Updating Generic Dev Container"
-
-export DEBIAN_FRONTEND=noninteractive
-export APT_LISTCHANGES_FRONTEND=none
-export UC_ANSWERS=keep
+print_header "Cleaning Generic Dev Container"
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 current_script="$(basename -- "${BASH_SOURCE[0]}")"
@@ -22,7 +18,3 @@ for script in "$script_dir"/[0-9][0-9][0-9]-*.sh; do
     echo "==> Running $(basename -- "$script")"
     bash "$script"
 done
-
-print_header "Cleaning"
-
-bash "/opt/clean-dc/000-clean-dev-dc.sh"
