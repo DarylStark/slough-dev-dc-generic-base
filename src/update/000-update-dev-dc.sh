@@ -26,3 +26,5 @@ done
 print_header "Cleaning"
 
 bash "/opt/clean-dc/000-clean-dev-dc.sh"
+
+touch /var/log/dev-dc-last-update

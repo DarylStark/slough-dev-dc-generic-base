@@ -264,6 +264,8 @@ After the update scripts finish, the container automatically runs any cleanup sc
 
 In practice, this means you can update a running container with a single command and still let more specialized images extend the process when needed.
 
+After each successful update, the script records the time by touching `/var/log/dev-dc-last-update`. Every time a new shell session starts, the Bash configuration checks how long ago that file was last updated. If it has been more than five days, you will see a reminder message suggesting you run `update`. This ensures you are always notified when an update is overdue.
+
 ## Building the Image
 
 If you want to build this image locally:
