@@ -10,6 +10,10 @@ source "$lib_dir/common.sh"
 require_root
 print_header "Updating Generic Dev Container"
 
+export DEBIAN_FRONTEND=noninteractive
+export APT_LISTCHANGES_FRONTEND=none
+export UC_ANSWERS=keep
+
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 current_script="$(basename -- "${BASH_SOURCE[0]}")"
 
