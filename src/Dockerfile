@@ -130,9 +130,10 @@ RUN apt-get purge -y build-essential && \
     rm -rf /var/lib/apt/lists
 
 # Create the Update environment
-RUN mkdir -p /opt/update-dc/
+RUN mkdir -p /opt/update-dc/ /opt/clean-dc/
 COPY ./update/ /opt/update-dc/
-RUN chmod +x /opt/update-dc/*.sh
+COPY ./update-clean/ /opt/clean-dc/
+RUN chmod +x /opt/update-dc/*.sh /opt/clean-dc/*.sh
 
 # Switch to the non-root user
 USER developer

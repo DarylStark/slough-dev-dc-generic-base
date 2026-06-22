@@ -248,6 +248,22 @@ A custom Bash configuration is sourced at `~/.bashrc.slough`:
   - Format: `[YYYY-MM-DD HH:MM:SS] :: command`
   - Ignores duplicates and commands starting with spaces
 
+### Updating the Container
+
+This image includes an `update` command for keeping the software inside the container current without rebuilding the image manually.
+
+Run:
+
+```bash
+update
+```
+
+That command is an alias for `sudo /opt/update-dc/000-update-dev-dc.sh`. The update script scans the `/opt/update-dc` directory and runs every script it finds there in order, so downstream images can add their own update steps by placing additional scripts in that directory.
+
+After the update scripts finish, the container automatically runs any cleanup scripts stored in `/opt/clean-dc`. This gives derived images a place to remove temporary files, clear caches, or apply other post-update cleanup.
+
+In practice, this means you can update a running container with a single command and still let more specialized images extend the process when needed.
+
 ## Building the Image
 
 If you want to build this image locally:
