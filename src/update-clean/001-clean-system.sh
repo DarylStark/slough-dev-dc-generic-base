@@ -10,5 +10,6 @@ source "$lib_dir/common.sh"
 require_root
 print_header "Cleaning Generic Dev Container / System"
 
+apt-get --yes autoremove
 apt-get clean
 rm -rf /var/lib/apt/lists
