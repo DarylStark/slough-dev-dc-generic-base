@@ -11,6 +11,7 @@ RUN sed -i 's:^path-exclude /usr/share/man:#path-exclude /usr/share/man:' \
 # hadolint ignore=DL3008,DL3009
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --reinstall \
+    libcurl3-gnutls \
     manpages \
     man-db \
     coreutils \
